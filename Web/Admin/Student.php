@@ -4,24 +4,51 @@ session_start();
 
 //if session exists
 if(isset ($_SESSION["userId"])) //session userid gets value from text field named userid, shown in user.php
-{	include "Header.php";?>
-<!DOCTYPE html>
-<html>
-<head>
-<style>
-	/* Apply the CSS rule to the <td> elements with a class of "word-wrap" */
-	.word-wrap {
-		white-space: pre-line; /* Allow wrapping */
-		width: 120px; /* Adjust the width as needed */
-	}
-</style>
-</head>
-<body>
-	<a style="float:right;margin-right:10px" href="StudentAdd.php" class="btn">Add Student</a><br><br>
-	<h1 align="center"> Student Users</h1>
-	<br>
+{	include "Header.php";
+    if (isset($_SESSION['notification'])) {
+        $notification = $_SESSION['notification'];
+        unset($_SESSION['notification']); // Clear the notification after displaying it
+    }?>
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <body class="g-sidenav-show dark-version bg-gray-100">
+
+    <main class="main-content position-relative border-radius-lg ">
+        <?php include "navbar.php";?>
+        <div class="container-fluid py-4">
+            <?php if (isset($notification)): ?>
+<!--                <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">-->
+<!--                    <div class="toast-header">-->
+<!--                        <strong class="mr-auto">Notification</strong>-->
+<!--                        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">-->
+<!--                            <span aria-hidden="true">&times;</span>-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                    <div class="toast-body">-->
+<!--                        --><?php //echo $notification; ?>
+<!--                    </div>-->
+<!--                </div>-->
+                <div class="alert alert-success alert-dismissible fade show ml-auto alert-sm" role="alert">
+                    <?php echo $notification; ?>
+                    <button type="button" class="btn-close btn-close-white" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            <?php endif; ?>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card mb-4">
+                        <div class="card-header pb-0">
+                            <div class="d-flex align-items-center">
+                                <h6>Student table</h6>
+                                <a class="btn btn-primary btn-sm ms-auto" href="StudentAdd.php">Add</a>
+                            </div>
+                        </div>
+                        <div class="card-body px-0 pt-0 pb-2">
+                            <div class="table-responsive p-0">
 <?php
-	$queryGet = "select * from student";	
+	$queryGet = "select * from student";
 	$resultGet = mysqli_query($link,$queryGet);
 	if(!$resultGet)
 	{
@@ -29,70 +56,72 @@ if(isset ($_SESSION["userId"])) //session userid gets value from text field name
 	}
 	else
 	{?>
-	<table id="table" border="1" align="center">
-		<tr>
-			<th>Name</th>
-			<th>Student ID</th>
-			<th>IC No</th>
-			<th>Email</th>
-			<th>Course</th>
-			<th>Semester</th>
-			<th>Fingerprint Enrollment</th>
-			<th>Action</th>
-		</tr>	 
-		
+                                <table class="table align-items-center mb-0">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Student ID/IC No</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fingerprint Enrollment</th>
+                                        <th class="text-secondary opacity-7">Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
 <?php	while($row= mysqli_fetch_array($resultGet, MYSQLI_BOTH))
 		{	?>
-			<tr>
-				<td><?php echo $row['name']?></td>
-				<td><?php echo $row['student_id'];?></td>
-				<td><?php echo $row['ic_no']; ?></td>
-				<td><?php echo $row['email']; ?></td>
-				<td class='word-wrap'><?php echo getCourseName($row['course_id']); ?></td>
-				<td class='word-wrap'><?php echo getSemesterName($row['semester_id']); ?></td>
-				<td><?php if($row['enrol_fingerprint']==1) echo "Enrolled"; else echo "Haven't Enrolled";?></td>
-				<td><a href="StudentEdit.php?id=<?php echo $row['id'];?>">
-					<img border="0" alt="editB" src="../CSS/btn/editB.png" width="25" height="25"></a>
-					<a href="Delete.php?sid=<?php echo $row['id'];?>" onclick="return confirm('Are you sure?')">
-					<img border="0" alt="editB" src="../CSS/btn/delB.png" width="25" height="25"></a></a>
-				</td>
-			</tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex px-2 py-1">
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm"><?php echo $row['name']?></h6>
+                                                    <p class="text-xs text-secondary mb-0"><?php echo $row['email']; ?></p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0"><?php echo $row['student_id'];?></p>
+                                            <p class="text-xs text-secondary mb-0"><?php echo $row['ic_no']; ?></p>
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
+                                            <?php if($row['enrol_fingerprint']==1){
+                                                $value = "Enrolled";
+                                                $class = "success";
+                                            }else{
+                                                $value = "Haven't Enrolled";
+                                                $class = "danger";
+                                            }
+                                            ?>
+                                            <span class="badge badge-sm bg-gradient-<?php echo $class?>"><?php echo $value?></span>
+                                        </td>
+                                        <td class="align-middle">
+                                            <div class="ms-auto text-middle">
+                                                <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="Delete.php?sid=<?php echo $row['id'];?>" onclick="return confirm('Are you sure?')"><i class="far fa-trash-alt me-2"></i>Delete</a>
+                                                <a class="btn btn-link text-dark px-3 mb-0" href="StudentEdit.php?id=<?php echo $row['id'];?>"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
+                                            </div>
+                                        </td>
+                                    </tr>
 <?php	}?>
-		
-	</table>
-<?php
-	}
-}		
-else	{
-	echo "No session exists or session has expired. Please log in again ";
-	echo "Page will be redirect in 5 seconds";
-	header('Refresh: 5; ../Admin/Login.php');
-}
-if (isset($_POST['updateBTN'])) 
-{
-	$username =$_POST["username"];
-	$verification = "Verified";
-	$queryInsert = "UPDATE users SET 
-					verification = '".$verification."' 
-					WHERE username = '".$username."'";
-	 
-	$resultInsert = mysqli_query($link,$queryInsert);
-	if (!$resultInsert)
-	{
-		die ("Error: ".mysqli_error($link));
-	}
-	else 
-	{
-		echo '<script type="text/javascript">
-		            window.onload = function () 
-		            { 
-					alert("User been verified...");
-					open("Retailer.php","_top");
-					}
-					</script>';
+                                    </tbody>
+                                </table>
+                                <?php
 
-	}
 }
-	?>
-</body>
-</html>
+?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php include "footer.php";?>
+    </body>
+
+    </html>
+    <?php
+}
+
+else	{
+    echo "No session exists or session has expired. Please log in again ";
+    echo "Page will be redirect in 5 seconds";
+    header('Refresh: 5; ../Auth/Login.php');
+}
+?>

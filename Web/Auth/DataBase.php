@@ -7,7 +7,7 @@ $password    = "";
 $errors = array(); 
 
 // connect to the database
-$ds = mysqli_connect('localhost', 'root', 'sudo', 'attendance2');
+$ds = mysqli_connect('localhost', 'root', '', 'library');
 
 
  // LOGIN USER
