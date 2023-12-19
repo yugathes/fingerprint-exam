@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1deb1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Dec 16, 2023 at 09:21 AM
--- Server version: 10.11.3-MariaDB-1+rpi1
--- PHP Version: 8.2.7
+-- Host: 127.0.0.1
+-- Generation Time: Dec 19, 2023 at 07:48 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,31 +18,8 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `attendance2`
+-- Database: `library`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `course`
---
-
-CREATE TABLE `course` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `course`
---
-
-INSERT INTO `course` (`id`, `name`) VALUES
-(3, 'Bachelor of Computer Science(System & Networking)'),
-(4, 'Bachelor of Computer Science(Software Engineering)'),
-(5, 'Bachelor of Computer Science(Cyber Security)'),
-(6, 'Bachelor of Information Technology (Information Systems)'),
-(7, 'Bachelor of Information Technology (Visual Media)'),
-(8, 'Bachelor of Information Technology (Visual Media)');
 
 -- --------------------------------------------------------
 
@@ -62,26 +39,9 @@ CREATE TABLE `exam` (
 
 INSERT INTO `exam` (`id`, `name`, `datetime`) VALUES
 (1, 'System Analysis Design', '2023-12-20 09:00:00'),
-(2, 'Computer Forensic', '2023-12-09 21:00:00');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `semester`
---
-
-CREATE TABLE `semester` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `semester`
---
-
-INSERT INTO `semester` (`id`, `name`) VALUES
-(2, 'Semester 1 (2023/2024)'),
-(3, 'Semester 2 (2023/2024)');
+(2, 'Computer Forensic', '2023-12-09 21:00:00'),
+(3, 'Nasim Oneill', '2009-02-09 23:14:00'),
+(4, 'Cisco2', '2023-12-07 09:13:00');
 
 -- --------------------------------------------------------
 
@@ -95,21 +55,19 @@ CREATE TABLE `student` (
   `ic_no` varchar(99) NOT NULL,
   `student_id` varchar(99) NOT NULL,
   `email` varchar(99) NOT NULL,
-  `enrol_fingerprint` int(1) NOT NULL,
-  `course_id` int(11) NOT NULL,
-  `semester_id` int(11) NOT NULL
+  `enrol_fingerprint` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `student`
 --
 
-INSERT INTO `student` (`id`, `name`, `ic_no`, `student_id`, `email`, `enrol_fingerprint`, `course_id`, `semester_id`) VALUES
-(1, 'Brody Carney', 'Possimus laboriosam', 'SE0104928', 'rajepaja@mailinator.com', 1, 8, 3),
-(2, 'Adrienne Jarvis', 'Quos et magna volupt', 'SG0193814', 'tuwy@mailinator.com', 1, 7, 3),
-(3, 'Pavenarsh A/L Arichanthiran', '011012-11-1656', 'CS0106373', 'pave1@gmail.com', 1, 8, 3),
-(4, 'Andrew Norman', '990121037823', 'SN0107382', 'renik@mailinator.com', 1, 8, 2),
-(9, 'test', '0222222-10-1829', 'CS0101010', 'test@gmail.com', 1, 5, 3);
+INSERT INTO `student` (`id`, `name`, `ic_no`, `student_id`, `email`, `enrol_fingerprint`) VALUES
+(1, 'Brody Carney', 'Possimus laboriosam', 'SP0104928', 'rajepaja@mailinator.com', 1),
+(2, 'Adrienne Jarvis', 'Quos et magna volupt', 'SG0193814', 'tuwy@mailinator.com', 1),
+(3, 'Chandler Pratt', '011012-11-1656', 'CS0106373', 'pave1@gmail.com', 1),
+(4, 'Andrew Norman', '990121037823', 'SN0107383', 'renik@mailinator.com', 1),
+(5, 'Ted Bryan', '871173-10-2832', 'CS0137338', 'bryan@yahoo.com', 0);
 
 -- --------------------------------------------------------
 
@@ -130,9 +88,11 @@ CREATE TABLE `student_has_exam` (
 --
 
 INSERT INTO `student_has_exam` (`id`, `student_id`, `exam_id`, `attendance`, `attendance_date_time`) VALUES
+(2, 1, 1, 1, '2023-11-26 23:50:08'),
 (3, 2, 1, 1, '2023-11-26 23:50:08'),
 (4, 1, 2, 1, '2023-11-26 23:52:28'),
-(5, 3, 1, 1, '2023-12-16 16:48:11');
+(5, 3, 1, 0, NULL),
+(6, 3, 2, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -157,18 +117,12 @@ INSERT INTO `users` (`id`, `staffId`, `password`, `name`, `email`, `type_user`) 
 (1, 'Admin', '123', 'Test Admin', 'admin@test.com', 'Admin'),
 (2, 'ST0128385', 'Pa$$w0rd!', 'Kitra Vazquez', 'jyqozaju@mailinator.com', 'Lecturer'),
 (3, 'ST01283812', 'Pa$$w0rd!', 'Zorita Hoppers', 'lihar@mailinator.com', 'Lecturer'),
-(4, 'ST0127839', '123', 'Marina', 'marina@uniten.edu.my', 'Lecturer'),
-(5, 'Admin2', '123', 'Admin2', 'admin@test.com', 'Admin');
+(4, 'ST0127839', '123', 'Marina Ma', 'marina@uniten.edu.my', 'Lecturer'),
+(6, 'MC220919', 'asdf', 'Anushinee', 'anu@gmail.com', 'Admin');
 
 --
 -- Indexes for dumped tables
 --
-
---
--- Indexes for table `course`
---
-ALTER TABLE `course`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `exam`
@@ -177,19 +131,11 @@ ALTER TABLE `exam`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `semester`
---
-ALTER TABLE `semester`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `student`
 --
 ALTER TABLE `student`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `student_id` (`student_id`),
-  ADD KEY `fk_course_id` (`course_id`),
-  ADD KEY `fk_semester_id` (`semester_id`);
+  ADD UNIQUE KEY `student_id` (`student_id`);
 
 --
 -- Indexes for table `student_has_exam`
@@ -210,34 +156,22 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT for table `course`
---
-ALTER TABLE `course`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
---
 -- AUTO_INCREMENT for table `exam`
 --
 ALTER TABLE `exam`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT for table `semester`
---
-ALTER TABLE `semester`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `student`
 --
 ALTER TABLE `student`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `student_has_exam`
 --
 ALTER TABLE `student_has_exam`
-  MODIFY `id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -250,18 +184,11 @@ ALTER TABLE `users`
 --
 
 --
--- Constraints for table `student`
---
-ALTER TABLE `student`
-  ADD CONSTRAINT `fk_course_id` FOREIGN KEY (`course_id`) REFERENCES `course` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_semester_id` FOREIGN KEY (`semester_id`) REFERENCES `semester` (`id`) ON DELETE CASCADE;
-
---
 -- Constraints for table `student_has_exam`
 --
 ALTER TABLE `student_has_exam`
-  ADD CONSTRAINT `fk_exam_id` FOREIGN KEY (`exam_id`) REFERENCES `exam` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_student_id` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `fk_exam_id` FOREIGN KEY (`exam_id`) REFERENCES `exam` (`id`),
+  ADD CONSTRAINT `fk_student_id` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
