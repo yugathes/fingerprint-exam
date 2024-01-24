@@ -245,7 +245,7 @@ else{	?>
 			<td><?php echo $row1['num_stud']?></td>
 			<td><?php echo $row1['total_attendance'];?></td>
 			<td>
-				<a href="AttendanceTake.php?id=<?php echo $row1['exam_id'];?>" class="btn btn-take">Take Attendance</a>
+				<a href="AttendanceTake.php?id=<?php echo $row1['exam_id'];?>" class="btn btn-take">More Info</a>
 				<!--<a href="AttendanceView.php?id=<?php //echo $row1['exam_id'];?>" class="btn btn-view">View Attendance</a>-->
 			</td>
 		</tr><?php	}	}?>
